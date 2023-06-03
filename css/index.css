@@ -85,7 +85,7 @@ main{
     position: "relative";
     max-width: 1200px;
     padding: 0 50px;
-    top: "50px";
+    top: "80px";
 }
 
 .container .box{
@@ -255,6 +255,11 @@ header img{
         flex-direction: column;
     }
 
+    header h1 {
+        width: 900px;
+        text-align: center;
+    }
+
     header img {
         width: 100px;
     }
@@ -271,6 +276,7 @@ header img{
         padding: 10px 20px;
     }
 
+ 
     select{
         width: 100%;
         margin: 10px 0;
@@ -281,8 +287,18 @@ header img{
         margin: 10px 0;
     }
 
+    .play{
+        flex-direction: column;
+    }
+
+    .play{
+        flex-direction: column;
+        text-align: center;
+    }
+
     .play h2{
         font-size: 20px;
         position: relative;
     }
+   
 }

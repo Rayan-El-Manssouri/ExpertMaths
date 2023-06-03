@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Maths</title>
+    <link  type="text/css" rel="stylesheet" href="css/index.css">
+    <link rel="icon" href="./assets/Logo.png" />
+</head>
+<body>
+    <header>
+        
+        <h1>Expert Maths</h1>
+        <img src="./assets/Logo.png">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="play.html">Play</a></li>
+            <li><a href="pages/about.php">github</a></li>
+        </ul>
+    </header>
+    <div class="play">
+        <h2>Choisissez votre mode de jeu</h2>
+        <select id="mode">
+            <option value="add">Addition</option>
+            <option value="sub">Soustraction</option>
+            <option value="mul">Multiplication</option>
+            <option value="div">Division</option>
+        </select>
+        <button onclick="startGame()">Play</button>
+        <div id="countdown" class="hide"></div>
+        <div id="numbers" class="hide"></div>
+        <div id="answer-section" class="hide">
+            <p id="juge" class="hide" ></p>
+            <input type="number" id="userAnswer" placeholder="Votre réponse">
+            <button onclick="checkAnswer()">Vérifier</button>
+        </div>
+        <p id="result" class="hide"></p>
+    </div>
+
+    <script>
+        var countdownElement = document.getElementById("countdown");
+        var numbersElement = document.getElementById("numbers");
+        var userAnswerElement = document.getElementById("userAnswer");
+        var answerSection = document.getElementById("answer-section");
+        var resultElement = document.getElementById("result");
+        var jugeElement = document.getElementById("juge");
+        var countdown;
+
+        function startGame() {
+            var mode = document.getElementById("mode").value;
+            document.querySelector('.play h2').classList.add('hide');
+            document.querySelector('.play select').classList.add('hide');
+            document.querySelector('.play button').classList.add('hide');
+
+            countdownElement.classList.remove("hide");
+            countdownElement.innerHTML = "3";
+            countdown = setInterval(countdownTimer, 1000);
+
+            setTimeout(function() {
+                clearInterval(countdown);
+                countdownElement.classList.add("hide");
+                numbersElement.classList.remove("hide");
+                var numbers = generateNumbers();
+                numbers.pop(); // Remove the last number
+                showNumbers(mode, numbers);
+            }, 4000);
+        }
+
+        function countdownTimer() {
+            var count = parseInt(countdownElement.innerHTML);
+            if (count > 1) {
+                count--;
+                countdownElement.innerHTML = count.toString();
+            } else {
+                countdownElement.innerHTML = "C'est parti !";
+            }
+        }
+
+        function generateNumbers() {
+            var numbers = [];
+            for (var i = 0; i < 10; i++) {
+                var randomNumber = Math.random() * Number.MAX_SAFE_INTEGER;
+                numbers.push(Math.floor(randomNumber));
+            }
+            return numbers;
+        }
+
+        function showNumbers(mode, numbers) {
+            var index = 0;
+            var interval = setInterval(function() {
+                if (index < numbers.length) {
+                    numbersElement.innerHTML = numbers[index].toString();
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    answerSection.classList.remove("hide");
+                    numbersElement.classList.add("hide");
+                    userAnswerElement.focus();
+                }
+            }, 1000);
+
+            setTimeout(function() {
+                var result = calculateResult(mode, numbers);
+                userAnswerElement.dataset.result = result;
+            }, (numbers.length + 1) * 1000);
+        }
+
+        function checkAnswer() {
+            var userAnswer = parseInt(userAnswerElement.value);
+            var result = parseInt(userAnswerElement.dataset.result);
+            
+            if (userAnswer === result) {
+                jugeElement.innerHTML = "Correct!";
+            } else {
+                jugeElement.innerHTML = "Incorrect!";
+            }
+            numbersElement.classList.add("hide");
+            resultElement.classList.remove("hide");
+            jugeElement.classList.remove("hide");
+        }
+
+        function calculateResult(mode, numbers) {
+            var result;
+            if (mode === "add") {
+                result = numbers.reduce((a, b) => a + b);
+            } else if (mode === "sub") {
+                result = numbers.reduce((a, b) => a - b);
+            } else if (mode === "mul") {
+                result = numbers.reduce((a, b) => a * b);
+            } else if (mode === "div") {
+                result = numbers.reduce((a, b) => a / b);
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

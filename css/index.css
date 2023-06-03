@@ -258,6 +258,7 @@ header img{
     header h1 {
         width: 900px;
         text-align: center;
+        font-size: 15px;
     }
 
     header img {
@@ -294,11 +295,18 @@ header img{
     .play{
         flex-direction: column;
         text-align: center;
+        position: relative;
+        top: 60px;
     }
 
     .play h2{
         font-size: 20px;
         position: relative;
+    }
+
+    .container{
+        position: relative;
+        top: 60px;
     }
    
 }
